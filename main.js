@@ -14,6 +14,7 @@ const get = async (url, cb) => await request.get({url, json: true, headers: {'Us
 
 const app = require('express')()
 
+app.set('view engine', 'pug')
 app.use(require('express-session')({ secret: sessionSecret, resave: false, saveUninitialized: false}))
 
 app.get('/callback', async (req, res) => {
@@ -24,14 +25,8 @@ app.get('/callback', async (req, res) => {
 
 app.get('/', (req, res) => {
   const user = req.session.user
-  if (!user) return res.end(`<a href=${loginUrl}>Log in with Github</a>`)
-  res.end(`
-    <style>
-      body{background-image:url(${user.avatar_url});background-size:cover}
-      pre{background-color: rgba(255,255,255,0.4)}
-    </style>
-    <pre>${JSON.stringify(user, 0, 2)}</pre>
-  `)
+  if (user) res.render('index', {url: user.avatar_url, pre: JSON.stringify(user, 0, 2)})
+  else      res.render('login', {loginUrl})
 })
 
 app.listen(port, _ => { console.log(`${baseURL}`) })
