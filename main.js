@@ -23,6 +23,11 @@ app.get('/callback', async (req, res) => {
   res.redirect('/')
 })
 
+app.get('/logout', (req, res) => {
+  delete req.session.user
+  res.redirect('/')
+})
+
 app.get('/', (req, res) => {
   const user = req.session.user
   if (user) res.render('index', {url: user.avatar_url, pre: JSON.stringify(user, 0, 2)})
