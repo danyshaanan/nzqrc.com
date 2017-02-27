@@ -1,4 +1,8 @@
 {
+  "scripts": {
+    "test": "sudo node main.js",
+    "start": "sudo NODE_ENV=production node main.js"
+  },
   "dependencies": {
     "express": "4.14.1",
     "express-session": "1.15.1",
